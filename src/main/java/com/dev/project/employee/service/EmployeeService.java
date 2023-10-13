@@ -14,7 +14,6 @@ public class EmployeeService {
 	EmployeeRepository employeeRepo;
 	
 	public Employee createEmployee(Employee employee) {
-		System.out.println();
 	    return employeeRepo.save(employee);
 	}
 
@@ -22,6 +21,10 @@ public class EmployeeService {
 	    return employeeRepo.findAll();
 	}
 
+	public Employee getEmployeeById(Long employeeId) {
+		return employeeRepo.findById(employeeId).get();                                
+	}
+	
 	public Employee updateEmployee(Long employeeId, Employee employee) {
 		Employee currEmployee = employeeRepo.findById(employeeId).get();
 		currEmployee.setFirstName(employee.getFirstName());
