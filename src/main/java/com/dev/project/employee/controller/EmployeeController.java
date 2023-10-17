@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.dev.project.employee.model.Employee;
 import com.dev.project.employee.service.EmployeeService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/employees")
 public class EmployeeController {
@@ -24,7 +26,7 @@ public class EmployeeController {
     EmployeeService employeeService;
 
 	@PostMapping
-	public ResponseEntity<Employee> createEmployee(@RequestBody Employee employee) {
+	public ResponseEntity<Employee> createEmployee(@Valid @RequestBody Employee employee) {
 	    Employee newEmployee = employeeService.createEmployee(employee);
 	    return new ResponseEntity<Employee>(newEmployee, HttpStatus.OK);
 	}
@@ -34,9 +36,14 @@ public class EmployeeController {
 	    return new ResponseEntity<List<Employee>>(employeeService.listAllEmployees(), HttpStatus.OK);
 	}
 	
+	@GetMapping("{employeeId}")
+	public ResponseEntity<Employee> getEmployeeById(@PathVariable(value = "employeeId") Long id) {
+	    return new ResponseEntity<Employee>(employeeService.getEmployeeById(id), HttpStatus.OK);
+	}
+
 	@PutMapping("{employeeId}")
-	public Employee readEmployees(@PathVariable(value = "employeeId") Long id, @RequestBody Employee empDetails) {
-	    return employeeService.updateEmployee(id, empDetails);
+	public Employee updateEmployee(@PathVariable(value = "employeeId") Long id, @Valid @RequestBody Employee employee) {
+	    return employeeService.updateEmployee(id, employee);
 	}
 	
 	@DeleteMapping("{employeeId}")
